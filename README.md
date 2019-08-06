@@ -1,3 +1,7 @@
+# Idea Pool
+
+Idea Pool is a service that records your ideas
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
