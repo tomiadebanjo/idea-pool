@@ -1,4 +1,16 @@
+@import '../../assets/styles/settings';
+
 .content {
   display: flex;
   min-height: 100vh;
+
+  &__body {
+    margin-left: $side-bar-width;
+    width: 100%;
+  }
+
+  &__container {
+    margin: 0 auto;
+    max-width: 1200px;
+  }
 }
