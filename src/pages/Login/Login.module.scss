@@ -1,0 +1,112 @@
+@import '../../assets/styles/settings';
+
+.form {
+  &__container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+  }
+
+  &__body {
+    width: 40%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding-top: 10%;
+  }
+
+  &__headingText {
+    font-size: 40px;
+    font-weight: normal;
+    color: #2a3842;
+    margin: 0;
+    margin-bottom: 20px;
+  }
+
+  &__group {
+    width: 100%;
+    margin: 2.3% 0;
+    display: flex;
+    flex-flow: column-reverse;
+
+    input,
+    label {
+      transition: all 0.2s;
+    }
+
+    input {
+      width: 100%;
+      border: 0;
+      border-bottom: 1px solid #455e70;
+      padding: 10px 0;
+      font-size: 16px;
+      color: rgba(42, 56, 66, 0.8);
+
+      &:focus {
+        outline: 0;
+        border-bottom: 1px solid #2382c7;
+      }
+
+      &::placeholder {
+        font-size: 16px;
+        color: rgba(42, 56, 66, 0.6);
+        transition: inherit;
+        opacity: 0;
+      }
+
+      &:placeholder-shown + label {
+        max-width: 66.66%;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        cursor: text;
+        transform-origin: left bottom;
+        transform: translate(0, 2.125rem) scale(0.95);
+        opacity: 0.5;
+      }
+
+      &:not(:placeholder-shown) + label,
+      &:focus + label {
+        transform: translate(0, 0) scale(1);
+        cursor: pointer;
+        opacity: 1;
+      }
+
+      // &:focus::placeholder {
+      //   opacity: 1;
+      // }
+    }
+  }
+
+  &__actionSection {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    margin-top: 10%;
+
+    button {
+      background-color: #00a843;
+      border: none;
+      color: white;
+      padding: 2% 1%;
+      text-align: center;
+      text-decoration: none;
+      font-size: 16px;
+      width: 30%;
+      cursor: pointer;
+      align-self: center;
+    }
+
+    p {
+      font-size: 16px;
+      color: $main-text-color;
+
+      a {
+        color: $main-site-color;
+        text-decoration: none;
+      }
+    }
+  }
+}

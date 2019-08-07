@@ -7,7 +7,9 @@ const WrapperContainer = ({ children }) => {
   return (
     <div className={styles.content}>
       <SideBar />
-      <div>{children}</div>
+      <main className={styles.content__body}>
+        <div className={styles.content__container}>{children}</div>
+      </main>
     </div>
   );
 };
