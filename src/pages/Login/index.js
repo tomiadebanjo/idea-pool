@@ -8,23 +8,25 @@ const Login = () => {
       <form className={styles.form__body}>
         <h1 className={styles.form__headingText}>Log In</h1>
         <div className={styles.form__group}>
+          <label htmlFor="email" />
           <input
             type="email"
             name="email"
             id="email"
-            placeholder="tom@email.com"
+            placeholder="Email"
+            required
           />
-          <label htmlFor="email">Email</label>
         </div>
 
         <div className={styles.form__group}>
+          <label htmlFor="password" />
           <input
             type="password"
             name="password"
             id="password"
-            placeholder="enter password"
+            placeholder="Password"
+            required
           />
-          <label htmlFor="password">Password</label>
         </div>
 
         <div className={styles.form__actionSection}>
