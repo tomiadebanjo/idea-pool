@@ -1,15 +1,5 @@
 @import '../../assets/styles/settings';
 
-@mixin imgFormat {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  img {
-    max-width: 100%;
-    height: auto;
-  }
-}
-
 .main {
   background-color: $main-site-color;
   width: $side-bar-width;

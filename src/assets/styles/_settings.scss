@@ -1,3 +1,13 @@
 $main-site-color: #00a843;
 $side-bar-width: 200px;
 $main-text-color: #2a3842;
+
+@mixin imgFormat {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+}
