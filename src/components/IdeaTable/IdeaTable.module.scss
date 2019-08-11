@@ -1,4 +1,4 @@
-@import '../../assets/styles/settings';
+@import "../../assets/styles/settings";
 
 .ideaTable {
   width: 100%;
@@ -72,5 +72,58 @@
   &__icon {
     @include imgFormat();
     cursor: pointer;
+  }
+}
+
+.modal {
+  &__content {
+    width: 400px;
+    height: 250px;
+    background: #ffffff;
+    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.3);
+    border-radius: 3px;
+
+    h2 {
+      margin: 0;
+      margin-top: 30px;
+      padding: 30px 0 36px;
+      text-align: center;
+      font-size: 24px;
+      font-weight: normal;
+      color: #2a3842;
+    }
+
+    p {
+      text-align: center;
+      margin: 0;
+      font-size: 16px;
+      color: #2a3842;
+      letter-spacing: -0.1px;
+      line-height: 16px;
+    }
+
+    > div {
+      margin-top: 86px;
+      display: flex;
+      justify-content: space-evenly;
+
+      button {
+        cursor: pointer;
+        border: 0;
+        background: #fff;
+        font-size: 18px;
+        font-weight: 500;
+
+        &:nth-of-type(1) {
+          color: #2a3842;
+          letter-spacing: -0.11px;
+        }
+
+        &:last-of-type {
+          color: #00a843;
+          letter-spacing: 0;
+        }
+      }
+    }
   }
 }

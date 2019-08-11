@@ -1,4 +1,4 @@
-@import '../../assets/styles/settings';
+@import "../../assets/styles/settings";
 
 .main {
   background-color: $main-site-color;
@@ -28,7 +28,19 @@
     padding-top: 20%;
   }
 
+  &__userSectionInfo {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
   &__userSectionImg {
+    border-radius: 50%;
+    width: 64px;
+    height: 64px;
+    overflow: hidden;
+    background: white;
     @include imgFormat();
   }
 
