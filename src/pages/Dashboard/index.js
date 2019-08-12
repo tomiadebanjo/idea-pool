@@ -96,10 +96,13 @@ const Dashboard = () => {
             setFetchIdeasData={setFetchIdeasData}
             fetchIdeasData={fetchIdeasData}
           />
-          <Pagination
-            currentPage={currentPage}
-            setCurrentPage={setCurrentPage}
-          />
+          {showCreate && content.length < 1 ? null : (
+            <Pagination
+              currentPage={currentPage}
+              setCurrentPage={setCurrentPage}
+              contentLength={content.length}
+            />
+          )}
         </>
       )}
     </div>

@@ -8,10 +8,23 @@ import { AuthHelpers } from "../../helpers";
 import axiosInstance from "../../Services/axiosInstance";
 import Spinner from "../Spinner";
 
+const LogOutSpinner = ({ logOutLoading }) => {
+  return (
+    <div
+      className={`${styles.LogOutSpinner} ${
+        logOutLoading ? null : styles.LogOutSpinner__hide
+      }`}
+    >
+      <Spinner />
+    </div>
+  );
+};
+
 const SideBar = () => {
   const [auth, setAuth] = useContext(AuthContext);
   const [userInfo, setUserInfo] = useState({});
   const [loading, setLoading] = useState(false);
+  const [logOutLoading, setLogOutLoading] = useState(false);
   const { token } = AuthHelpers.getToken();
   const refreshToken = AuthHelpers.getRefreshToken();
 
@@ -28,6 +41,7 @@ const SideBar = () => {
         setUserInfo(data);
         setLoading(false);
       } catch (error) {
+        setLoading(false);
         console.error(error.response);
       }
     }
@@ -38,6 +52,7 @@ const SideBar = () => {
 
   const handleLogOut = async () => {
     try {
+      setLogOutLoading(true);
       await axiosInstance({
         method: "delete",
         url: "https://small-project-api.herokuapp.com/access-tokens",
@@ -45,10 +60,12 @@ const SideBar = () => {
         data: { refresh_token: refreshToken }
       });
 
+      setLogOutLoading(false);
       setAuth(false);
       AuthHelpers.deleteTokens();
       navigate("./");
     } catch (error) {
+      setLogOutLoading(false);
       console.error(error.response);
     }
   };
@@ -80,6 +97,7 @@ const SideBar = () => {
             </div>
           </div>
         ))}
+      <LogOutSpinner logOutLoading={logOutLoading} />
     </aside>
   );
 };

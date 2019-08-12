@@ -1,4 +1,4 @@
-@import '../../assets/styles/settings';
+@import "../../assets/styles/settings";
 
 .form {
   &__container {
@@ -74,6 +74,17 @@
       width: 30%;
       cursor: pointer;
       align-self: center;
+      display: flex;
+      height: 40px;
+
+      &:disabled {
+        opacity: 0.4;
+        cursor: not-allowed;
+      }
+
+      .button__text {
+        flex: 1;
+      }
     }
 
     p {
@@ -85,5 +96,49 @@
         text-decoration: none;
       }
     }
+  }
+}
+
+.display__errorMessage {
+  width: 100%;
+  color: red;
+  text-align: center;
+  display: flex;
+  height: 30px;
+  align-items: center;
+  justify-content: center;
+
+  &.empty {
+    display: none;
+  }
+
+  span {
+    @include imgFormat();
+    width: 10%;
+    height: 70%;
+
+    img {
+      height: 100%;
+      width: 100%;
+    }
+  }
+}
+
+.spinner__wrapper {
+  width: 20%;
+}
+
+.spinner {
+  height: 100%;
+  width: 100%;
+  animation: rotate-s-loader 1s linear infinite;
+}
+
+@keyframes rotate-s-loader {
+  from {
+    transform: rotate(0);
+  }
+  to {
+    transform: rotate(360deg);
   }
 }

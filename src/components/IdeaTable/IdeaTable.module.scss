@@ -70,8 +70,29 @@
   }
 
   &__icon {
+    border: 0;
+    background: white;
     @include imgFormat();
     cursor: pointer;
+  }
+}
+
+.spinner__wrapper {
+  height: 22px;
+}
+
+.spinner {
+  height: 100%;
+  width: 100%;
+  animation: rotate-s-loader 1s linear infinite;
+}
+
+@keyframes rotate-s-loader {
+  from {
+    transform: rotate(0);
+  }
+  to {
+    transform: rotate(360deg);
   }
 }
 

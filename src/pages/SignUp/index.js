@@ -4,19 +4,21 @@ import { Link, navigate } from "@reach/router";
 import axios from "axios";
 import { RequestHelpers, AuthHelpers } from "../../helpers";
 import AuthContext from "../../context/AuthContext";
-
-// To-do
-// Fix error display dialogue
+import loadingIcon from "../../assets/download.svg";
+import warningIcon from "../../assets/exclamation-mark.svg";
 
 const SignUp = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [displayMessage, setDisplayMessage] = useState("");
+  // eslint-disable-next-line no-unused-vars
   const [auth, setAuth] = useContext(AuthContext);
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async e => {
     setDisplayMessage("");
+    setLoading(true);
     e.preventDefault();
     const formData = { name, email, password };
 
@@ -29,10 +31,10 @@ const SignUp = () => {
 
       AuthHelpers.storeTokens(data);
 
-      setDisplayMessage("Sign up successfully! redirecting...");
       setAuth(true);
       navigate("./");
     } catch (error) {
+      setLoading(false);
       RequestHelpers.errorHandler(error, setDisplayMessage);
     }
   };
@@ -41,7 +43,16 @@ const SignUp = () => {
     <div className={styles.form__container}>
       <form className={styles.form__body} onSubmit={handleSubmit}>
         <h1 className={styles.form__headingText}>Sign Up</h1>
-        <div className="display__message">
+        <div
+          className={`${styles.display__errorMessage} ${
+            displayMessage.length < 1 ? styles.empty : ""
+          }`}
+        >
+          {displayMessage.length > 1 ? (
+            <span>
+              <img src={warningIcon} alt="warning icon" />
+            </span>
+          ) : null}
           <p>{displayMessage}</p>
         </div>
         <div className={styles.form__group}>
@@ -84,7 +95,18 @@ const SignUp = () => {
         </div>
 
         <div className={styles.form__actionSection}>
-          <button>SIGN UP</button>
+          <button disabled={loading}>
+            {loading ? (
+              <span className={styles.spinner__wrapper}>
+                <img
+                  src={loadingIcon}
+                  alt="button spinner"
+                  className={styles.spinner}
+                />
+              </span>
+            ) : null}
+            <span className={styles.button__text}>SIGN UP</span>
+          </button>
           <p>
             Already Have an account? <Link to="/login">Login</Link>
           </p>

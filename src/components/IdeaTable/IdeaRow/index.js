@@ -4,6 +4,7 @@ import editIcon from "../assets/pen.png";
 import deleteIcon from "../assets/bin.png";
 import confirmIcon from "../assets/Confirm_V.png";
 import cancelIcon from "../assets/Cancel_X.png";
+import loadingIcon from "../assets/spinner.svg";
 
 import { AuthHelpers } from "../../../helpers";
 import Modal from "../../Modal";
@@ -12,12 +13,13 @@ import axiosInstance from "../../../Services/axiosInstance";
 
 const numbers = [...Array(10).keys()].map(i => i + 1);
 
-/*
-To-do
-- Fix onKeyDown methods
-- remove console.log()
-- add loader to mini methods
-*/
+const SmallSpinner = () => {
+  return (
+    <span className={styles.spinner__wrapper}>
+      <img src={loadingIcon} alt="button spinner" className={styles.spinner} />
+    </span>
+  );
+};
 
 const IdeaRow = ({
   setFetchIdeasData,
@@ -27,9 +29,6 @@ const IdeaRow = ({
   toggleCreate
 }) => {
   const contentRef = createRef();
-  const impactRef = createRef();
-  const easeRef = createRef();
-  const confidenceRef = createRef();
   const [content, setContent] = useState(idea.content || "");
   const [impact, setImpact] = useState(idea.impact || 1);
   const [ease, setEase] = useState(idea.ease || 1);
@@ -37,6 +36,7 @@ const IdeaRow = ({
   const [averageScore, setAverageScore] = useState(idea.average_score || 0);
   const [editMode, setEditMode] = useState(isEditMode || false);
   const [showModal, toggleModal] = useState(false);
+  const [showLoading, toggleShowLoading] = useState(false);
 
   const { token } = AuthHelpers.getToken();
 
@@ -51,7 +51,7 @@ const IdeaRow = ({
     if (idea.id) {
       return handleIdeaUpdate();
     }
-
+    toggleShowLoading(true);
     try {
       await axiosInstance({
         method: "post",
@@ -60,8 +60,10 @@ const IdeaRow = ({
         data
       });
       setFetchIdeasData(!fetchIdeasData);
+      toggleShowLoading(false);
       toggleCreate(false);
     } catch (error) {
+      toggleShowLoading(false);
       console.error(error.response);
     }
   };
@@ -78,6 +80,7 @@ const IdeaRow = ({
     try {
       const data = { content, impact, ease, confidence };
 
+      toggleShowLoading(true);
       await axiosInstance({
         method: "put",
         url: `https://small-project-api.herokuapp.com/ideas/${idea.id}`,
@@ -86,22 +89,28 @@ const IdeaRow = ({
       });
 
       setFetchIdeasData(!fetchIdeasData);
+      toggleShowLoading(false);
       setEditMode(false);
     } catch (error) {
+      toggleShowLoading(false);
       console.error(error.response);
     }
   };
 
   const handleIdeaDelete = async () => {
     try {
+      toggleShowLoading(true);
+
       await axiosInstance({
         method: "delete",
         url: `https://small-project-api.herokuapp.com/ideas/${idea.id}`,
         headers: { "X-Access-Token": token }
       });
 
+      toggleShowLoading(false);
       setFetchIdeasData(!fetchIdeasData);
     } catch (error) {
+      toggleShowLoading(false);
       console.error(error.response);
     }
   };
@@ -136,7 +145,6 @@ const IdeaRow = ({
             <select
               name="impact"
               value={impact}
-              ref={impactRef}
               onChange={e => setImpact(e.target.value)}
               onBlur={e => setImpact(e.target.value)}
             >
@@ -155,7 +163,6 @@ const IdeaRow = ({
             <select
               name="ease"
               value={ease}
-              ref={easeRef}
               onChange={e => setEase(e.target.value)}
               onBlur={e => setEase(e.target.value)}
             >
@@ -174,7 +181,6 @@ const IdeaRow = ({
             <select
               name="confidence"
               value={confidence}
-              ref={confidenceRef}
               onChange={e => setConfidence(e.target.value)}
               onBlur={e => setConfidence(e.target.value)}
             >
@@ -190,48 +196,38 @@ const IdeaRow = ({
         </td>
         <td>{averageScore}</td>
         <td>
-          {editMode ? (
+          {showLoading ? (
+            <SmallSpinner />
+          ) : editMode ? (
             <>
-              <div
-                className={styles.ideaTable__icon}
+              <button
                 onClick={() => handleCreateClick()}
-                onKeyDown={() => {}}
-                role="button"
-                tabIndex="0"
+                className={styles.ideaTable__icon}
               >
                 <img src={confirmIcon} alt="confirm icon" />
-              </div>
-              <div
-                className={styles.ideaTable__icon}
+              </button>
+              <button
                 onClick={() => handleCancelClick()}
-                onKeyDown={() => {}}
-                role="button"
-                tabIndex="0"
+                className={styles.ideaTable__icon}
               >
                 <img src={cancelIcon} alt="cancel icon" />
-              </div>
+              </button>
             </>
           ) : (
             <>
               {" "}
-              <div
+              <button
                 className={styles.ideaTable__icon}
                 onClick={() => setEditMode(!editMode)}
-                onKeyDown={() => {}}
-                role="button"
-                tabIndex="0"
               >
                 <img src={editIcon} alt="edit icon" />
-              </div>
-              <div
+              </button>
+              <button
                 className={styles.ideaTable__icon}
                 onClick={() => toggleModal(true)}
-                onKeyDown={() => {}}
-                role="button"
-                tabIndex="0"
               >
                 <img src={deleteIcon} alt="delete icon" />
-              </div>{" "}
+              </button>{" "}
             </>
           )}
         </td>
@@ -243,8 +239,14 @@ const IdeaRow = ({
             <p>This idea will be permanently deleted.</p>
 
             <div>
-              <button onClick={() => toggleModal(false)}>CANCEL</button>
-              <button onClick={() => handleIdeaDelete()}>OK</button>
+              {showLoading ? (
+                <SmallSpinner />
+              ) : (
+                <>
+                  <button onClick={() => toggleModal(false)}>CANCEL</button>
+                  <button onClick={() => handleIdeaDelete()}>OK</button>
+                </>
+              )}
             </div>
           </div>
         </Modal>
