@@ -10,7 +10,7 @@ const IdeaTable = ({
   fetchIdeasData
 }) => {
   return (
-    <div>
+    <div className={styles.ideaTable__wrapper}>
       <table className={styles.ideaTable}>
         <thead>
           <tr>
