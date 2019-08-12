@@ -26,7 +26,8 @@ const IdeaRow = ({
   fetchIdeasData,
   idea,
   isEditMode,
-  toggleCreate
+  toggleCreate,
+  showCreate
 }) => {
   const contentRef = createRef();
   const [content, setContent] = useState(idea.content || "");
@@ -37,6 +38,7 @@ const IdeaRow = ({
   const [editMode, setEditMode] = useState(isEditMode || false);
   const [showModal, toggleModal] = useState(false);
   const [showLoading, toggleShowLoading] = useState(false);
+  // const [showEditIcons, toggleShowEditIcons] = useState(false);
 
   const { token } = AuthHelpers.getToken();
 
@@ -237,13 +239,17 @@ const IdeaRow = ({
             <>
               {" "}
               <button
-                className={styles.ideaTable__icon}
+                className={`${styles.ideaTable__icon} ${
+                  styles.ideaTable__iconHover
+                } `}
                 onClick={() => setEditMode(!editMode)}
               >
                 <img src={editIcon} alt="edit icon" />
               </button>
               <button
-                className={styles.ideaTable__icon}
+                className={`${styles.ideaTable__icon} ${
+                  styles.ideaTable__iconHover
+                }`}
                 onClick={() => toggleModal(true)}
               >
                 <img src={deleteIcon} alt="delete icon" />
