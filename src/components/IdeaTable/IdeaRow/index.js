@@ -45,8 +45,21 @@ const IdeaRow = ({
     setAverageScore(roundAverage(score));
   }, [impact, ease, confidence]);
 
+  const validateString = str => {
+    if (!str || str.trim().length < 1) {
+      return false;
+    }
+    return true;
+  };
+
   const handleCreateClick = async () => {
     const data = { content, impact, ease, confidence };
+
+    if (!validateString(content)) {
+      contentRef.current.setCustomValidity("Valid string required");
+      contentRef.current.reportValidity();
+      return;
+    }
 
     if (idea.id) {
       return handleIdeaUpdate();
@@ -79,6 +92,12 @@ const IdeaRow = ({
   const handleIdeaUpdate = async () => {
     try {
       const data = { content, impact, ease, confidence };
+
+      if (!validateString(content)) {
+        contentRef.current.setCustomValidity("Valid string required");
+        contentRef.current.reportValidity();
+        return;
+      }
 
       toggleShowLoading(true);
       await axiosInstance({
@@ -135,6 +154,7 @@ const IdeaRow = ({
               value={content}
               ref={contentRef}
               onChange={e => setContent(e.target.value)}
+              onFocus={e => e.target.setCustomValidity("")}
             />
           ) : (
             content
