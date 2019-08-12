@@ -4,6 +4,8 @@ import { Router } from "@reach/router";
 import WrapperContainer from "./components/WrapperContainer";
 import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
+import AuthRoute from "./components/AuthRoute";
+import UnprotectedRoute from "./components/UnprotectedRoute";
 
 import Dashboard from "./pages/Dashboard";
 import AuthContext from "./context/AuthContext";
@@ -16,9 +18,9 @@ function App() {
     <AuthContext.Provider value={authHook}>
       <WrapperContainer>
         <Router>
-          <Dashboard path="/" default />
-          <Login path="/login" />
-          <SignUp path="/register" />
+          <AuthRoute path="/" component={Dashboard} />
+          <UnprotectedRoute path="/login" component={Login} />
+          <UnprotectedRoute path="/register" component={SignUp} />
         </Router>
       </WrapperContainer>
     </AuthContext.Provider>

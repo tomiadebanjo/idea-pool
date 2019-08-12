@@ -1,9 +1,24 @@
-import React from 'react';
-import SideBar from '../SideBar';
+import React, { useContext, useEffect, useCallback } from "react";
+import SideBar from "../SideBar";
 
-import styles from './WrapperContainer.module.scss';
+import styles from "./WrapperContainer.module.scss";
+import { AuthHelpers } from "../../helpers";
+import AuthContext from "../../context/AuthContext";
 
 const WrapperContainer = ({ children }) => {
+  const [auth, setAuth] = useContext(AuthContext);
+
+  const autoLogin = useCallback(() => {
+    const { token } = AuthHelpers.getToken();
+    if (!auth && token) {
+      setAuth(true);
+    }
+  }, [auth, setAuth]);
+
+  useEffect(() => {
+    autoLogin();
+  }, [autoLogin]);
+
   return (
     <div className={styles.content}>
       <SideBar />

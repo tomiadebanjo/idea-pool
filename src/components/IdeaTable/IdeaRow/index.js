@@ -5,9 +5,10 @@ import deleteIcon from "../assets/bin.png";
 import confirmIcon from "../assets/Confirm_V.png";
 import cancelIcon from "../assets/Cancel_X.png";
 
-import axios from "axios";
 import { AuthHelpers } from "../../../helpers";
 import Modal from "../../Modal";
+
+import axiosInstance from "../../../Services/axiosInstance";
 
 const numbers = [...Array(10).keys()].map(i => i + 1);
 
@@ -52,7 +53,7 @@ const IdeaRow = ({
     }
 
     try {
-      await axios({
+      await axiosInstance({
         method: "post",
         url: "https://small-project-api.herokuapp.com/ideas",
         headers: { "X-Access-Token": token },
@@ -76,16 +77,14 @@ const IdeaRow = ({
   const handleIdeaUpdate = async () => {
     try {
       const data = { content, impact, ease, confidence };
-      // console.log(data, "update row Data");
 
-      const { data: response } = await axios({
+      await axiosInstance({
         method: "put",
         url: `https://small-project-api.herokuapp.com/ideas/${idea.id}`,
         headers: { "X-Access-Token": token },
         data
       });
 
-      console.log(response, "response data");
       setFetchIdeasData(!fetchIdeasData);
       setEditMode(false);
     } catch (error) {
@@ -95,13 +94,12 @@ const IdeaRow = ({
 
   const handleIdeaDelete = async () => {
     try {
-      const { data: response } = await axios({
+      await axiosInstance({
         method: "delete",
         url: `https://small-project-api.herokuapp.com/ideas/${idea.id}`,
         headers: { "X-Access-Token": token }
       });
 
-      console.log(response, "delete response data");
       setFetchIdeasData(!fetchIdeasData);
     } catch (error) {
       console.error(error.response);
