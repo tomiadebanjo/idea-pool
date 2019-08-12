@@ -26,7 +26,6 @@ const Login = () => {
         data: formData
       });
 
-      console.log(data, "+++ login response +++");
       AuthHelpers.storeTokens(data);
       setDisplayMessage("Login successfully! redirecting...");
       setAuth(true);

@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import styles from "./SignUp.module.scss";
-import { Link } from "@reach/router";
+import { Link, navigate } from "@reach/router";
 import axios from "axios";
-import { RequestHelpers } from "../../helpers";
+import { RequestHelpers, AuthHelpers } from "../../helpers";
+import AuthContext from "../../context/AuthContext";
 
 // To-do
 // Fix error display dialogue
@@ -12,6 +13,7 @@ const SignUp = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [displayMessage, setDisplayMessage] = useState("");
+  const [auth, setAuth] = useContext(AuthContext);
 
   const handleSubmit = async e => {
     setDisplayMessage("");
@@ -19,14 +21,17 @@ const SignUp = () => {
     const formData = { name, email, password };
 
     try {
-      const response = await axios({
+      const { data } = await axios({
         method: "post",
         url: "https://small-project-api.herokuapp.com/users",
         data: formData
       });
 
-      console.log(response.data, "+++ sign-up response +++");
+      AuthHelpers.storeTokens(data);
+
       setDisplayMessage("Sign up successfully! redirecting...");
+      setAuth(true);
+      navigate("./");
     } catch (error) {
       RequestHelpers.errorHandler(error, setDisplayMessage);
     }
