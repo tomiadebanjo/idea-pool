@@ -1,7 +1,7 @@
 import React from "react";
 import "./pagination.scss";
 
-const Pagination = ({ currentPage, setCurrentPage }) => {
+const Pagination = ({ currentPage, setCurrentPage, contentLength }) => {
   return (
     <div className="pagination">
       {currentPage < 2 ? null : (
@@ -10,7 +10,12 @@ const Pagination = ({ currentPage, setCurrentPage }) => {
         </button>
       )}
       <button className="pagination__button--text">page {currentPage}</button>
-      <button onClick={() => setCurrentPage(currentPage + 1)}>next</button>
+      <button
+        onClick={() => setCurrentPage(currentPage + 1)}
+        disabled={contentLength < 10}
+      >
+        next
+      </button>
     </div>
   );
 };

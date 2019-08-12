@@ -5,7 +5,6 @@ import AuthHelpers from "../helpers/AuthHelpers";
 const apiBaseUrl = "https://small-project-api.herokuapp.com/";
 
 const refreshToken = AuthHelpers.getRefreshToken();
-// const headers = { "X-Access-Token": token };
 
 const instance = axios.create({
   baseURL: apiBaseUrl
@@ -31,7 +30,6 @@ instance.interceptors.response.use(
     }
 
     try {
-      console.log(refreshToken, "++++++ refresh");
       const response = await instance.post("access-tokens/refresh", {
         refresh_token: refreshToken
       });
